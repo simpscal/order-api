@@ -1,17 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\Order.Domain\Order.Domain.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Order.Domain\Order.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FluentValidation" />
-    <PackageReference Include="FluentValidation.AspNetCore" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common\Behaviors\" />
-    <Folder Include="Common\Security\Permissions\" />
-  </ItemGroup>
-
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="FluentValidation.AspNetCore"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    </ItemGroup>
 </Project>

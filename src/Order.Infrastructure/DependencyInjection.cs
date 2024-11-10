@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Order.Application.Common.Interfaces;
-using Order.Infrastructure.Services;
+using Order.Application.Common.Repositories;
+using Order.Infrastructure.Common;
+using Order.Infrastructure.Products;
 
 namespace Order.Infrastructure;
 
@@ -10,16 +12,10 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services
-            .AddHttpContextAccessor()
-            .AddServices();
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
-        return services;
-    }
-
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         return services;
     }

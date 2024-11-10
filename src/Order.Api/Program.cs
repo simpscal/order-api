@@ -12,8 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    app.UseExceptionHandler();
-    app.UseInfrastructure();
+    app.UseApplication();
 
     if (app.Environment.IsDevelopment())
     {

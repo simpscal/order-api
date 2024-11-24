@@ -3,7 +3,7 @@ using AutoMapper;
 using Order.Application.Products.Queries.ListProducts;
 using Order.Domain.Products;
 
-namespace Order.Application.Common.Mappers;
+namespace Order.Application.Products;
 
 public class ProductsMapper : Profile
 {

@@ -7,6 +7,7 @@ using Order.Application.Products.Queries.ListProducts;
 
 namespace Order.Api.Controllers;
 
+[Route("api/products")]
 public class ProductsController(IMediator mediator) : ApiController
 {
     [HttpPost]

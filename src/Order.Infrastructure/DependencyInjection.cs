@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Order.Application.Common.Repositories;
 using Order.Infrastructure.Common;
 using Order.Infrastructure.Products;
+using Order.Infrastructure.Users;
 
 namespace Order.Infrastructure;
 
@@ -16,6 +17,7 @@ public static class DependencyInjection
             options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

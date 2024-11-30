@@ -15,9 +15,9 @@ public class LoginQueryHandler(IUserRepository userRepository, IConfiguration co
         var user = await userRepository.GetUserAsync(request.Email, request.Password);
 
         var accessTokenExpire = DateTime.UtcNow.AddMinutes(
-            configuration.GetValue<int>("JwtSettings:TokenExpirationInMinutes"));
+            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInMinutes"]));
         var refreshTokenExpire = DateTime.UtcNow.AddMinutes(
-            configuration.GetValue<int>("JwtSettings:TokenExpirationInDays"));
+            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInDays"]));
 
         return new LoginDto
         {

@@ -5,7 +5,7 @@ using Order.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
-        .AddPresentation()
+        .AddApi(builder.Configuration)
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
 }
@@ -21,6 +21,7 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
 

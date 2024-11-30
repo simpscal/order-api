@@ -13,23 +13,25 @@ public class TokenUtility(IConfiguration configuration)
 {
     public string GenerateToken(User user, DateTime? expires = null)
     {
-        var secretKey = configuration.GetValue<string>("JwtSettings:Secret");
+        var secretKey = configuration["JwtSettings:Secret"];
 
         if (secretKey == null)
         {
             throw new Exception("Empty JWTSettings Secret");
         }
 
-        var key = Encoding.UTF8.GetBytes(secretKey);
-        expires ??= DateTime.UtcNow.AddHours(1);
-
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject =
-                new ClaimsIdentity([new Claim("id", user.Id.ToString()), new Claim("email", user.Email)]),
-            Expires = expires,
+                new ClaimsIdentity([
+                    new Claim("userId", user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                ]),
+            Expires = expires ?? DateTime.UtcNow.AddHours(1),
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    SecurityAlgorithms.HmacSha256Signature),
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

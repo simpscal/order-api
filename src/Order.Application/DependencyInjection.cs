@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Order.Application.Common.Interceptors;
 using Order.Application.Common.Middlewares;
+using Order.Application.Common.Utilities;
 
 namespace Order.Application;
 
@@ -21,6 +22,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR().AddValidations().AddMappers();
+
+        services.AddSingleton<TokenUtility>();
 
         return services;
     }

@@ -1,4 +1,4 @@
-namespace Order.Application.Auth.Queries;
+namespace Order.Application.Auth.Queries.Login;
 
 public class LoginDto
 {

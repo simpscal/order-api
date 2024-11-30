@@ -2,7 +2,8 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Order.Application.Auth.Queries;
+using Order.Application.Auth.Commands.Register;
+using Order.Application.Auth.Queries.Login;
 
 namespace Order.Api.Controllers;
 
@@ -10,10 +11,16 @@ namespace Order.Api.Controllers;
 public class AuthController(IMediator mediator) : ControllerBase
 {
     [HttpPost("login")]
-    public async Task<LoginDto> Login(LoginQuery request)
+    public Task<LoginDto> Login([FromBody] LoginQuery request)
     {
-        var result = await mediator.Send(request);
+        return mediator.Send(request);
+    }
 
-        return result;
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterCommand request)
+    {
+        await mediator.Send(request);
+
+        return Ok();
     }
 }

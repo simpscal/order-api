@@ -1,5 +1,6 @@
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
@@ -7,6 +8,7 @@ using Order.Application.Products.Queries.ListProducts;
 
 namespace Order.Api.Controllers;
 
+[Route("api/products")]
 public class ProductsController(IMediator mediator) : ApiController
 {
     [HttpPost]

@@ -27,5 +27,16 @@ public class ExceptionValidatorMiddleware(RequestDelegate next)
 
             await context.Response.WriteAsJsonAsync(response);
         }
+        catch (Exception exception)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            context.Response.ContentType = "application/json";
+
+            var response = new AppError(
+                HttpStatusCode.BadRequest,
+                [exception.Message]);
+
+            await context.Response.WriteAsJsonAsync(response);
+        }
     }
 }

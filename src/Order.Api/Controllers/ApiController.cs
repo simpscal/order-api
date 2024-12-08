@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Order.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Authorize]
 public class ApiController : ControllerBase
 {
 }

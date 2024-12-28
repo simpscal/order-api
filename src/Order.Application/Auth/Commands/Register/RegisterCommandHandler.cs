@@ -1,6 +1,6 @@
 using MediatR;
 
-using Order.Application.Common.Repositories;
+using Order.Domain.Users;
 
 namespace Order.Application.Auth.Commands.Register;
 

@@ -1,5 +1,5 @@
 using Order.Application.Common.Constants;
-using Order.Application.Common.Repositories;
+using Order.Domain.Interfaces;
 
 namespace Order.Infrastructure.Common;
 

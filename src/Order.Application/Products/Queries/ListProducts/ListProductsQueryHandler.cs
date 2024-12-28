@@ -2,7 +2,7 @@ using AutoMapper;
 
 using MediatR;
 
-using Order.Application.Common.Repositories;
+using Order.Domain.Products;
 
 namespace Order.Application.Products.Queries.ListProducts;
 

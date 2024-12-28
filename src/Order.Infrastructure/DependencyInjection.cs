@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Order.Application.Common.Repositories;
+using Order.Domain.Products;
+using Order.Domain.Users;
 using Order.Infrastructure.Common;
 using Order.Infrastructure.Products;
 using Order.Infrastructure.Users;

@@ -2,8 +2,8 @@ using MediatR;
 
 using Microsoft.Extensions.Configuration;
 
-using Order.Application.Common.Repositories;
 using Order.Application.Common.Utilities;
+using Order.Domain.Users;
 
 namespace Order.Application.Auth.Queries.Login;
 

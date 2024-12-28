@@ -1,6 +1,6 @@
-using Order.Domain.Users;
+using Order.Domain.Interfaces;
 
-namespace Order.Application.Common.Repositories;
+namespace Order.Domain.Users;
 
 public interface IUserRepository : IBaseRepository
 {

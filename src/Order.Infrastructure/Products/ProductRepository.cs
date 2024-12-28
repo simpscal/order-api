@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using Order.Application.Common.Repositories;
 using Order.Domain.Products;
 using Order.Infrastructure.Common;
 

@@ -1,4 +1,4 @@
-namespace Order.Application.Common.Repositories;
+namespace Order.Domain.Interfaces;
 
 public interface IBaseRepository
 {

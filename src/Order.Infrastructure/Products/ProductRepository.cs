@@ -1,24 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 
-using Order.Application.Common.Repositories;
 using Order.Domain.Products;
 using Order.Infrastructure.Common;
 
 namespace Order.Infrastructure.Products;
 
-public class ProductRepository(AppDbContext appDbContext) : BaseRepository(appDbContext), IProductRepository
+public class ProductRepository(AppDbContext appDbContext) : Repository<Product>(appDbContext), IProductRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
-    public async Task<string> CreateProductAsync(Product product)
+    public async Task<string> AddAsync(Product product)
     {
-        var result = await _appDbContext.Products.AddAsync(product);
+        var result = await _dbSet.AddAsync(product);
 
         return result.Entity.Id.ToString();
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return await _appDbContext.Products.ToListAsync();
+        return await _dbSet.ToListAsync();
     }
 }

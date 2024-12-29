@@ -1,31 +1,39 @@
 using MediatR;
 
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 
-using Order.Application.Common.Repositories;
+using Order.Application.Common.Models;
 using Order.Application.Common.Utilities;
+using Order.Domain.Users;
+using Order.Domain.Users.Specifications;
 
 namespace Order.Application.Auth.Queries.Login;
 
-public class LoginQueryHandler(IUserRepository userRepository, IConfiguration configuration, TokenUtility tokenUtility)
-    : IRequestHandler<LoginQuery, LoginDto>
+public class LoginQueryHandler(
+    IUserRepository userRepository,
+    TokenUtility tokenUtility)
+    : IRequestHandler<LoginQuery, JwtToken>
 {
-    public async Task<LoginDto> Handle(LoginQuery request, CancellationToken cancellationToken)
+    public async Task<JwtToken> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetUserAsync(request.Email, request.Password);
+        var existingUserSpecification = new ExistingUserSpecification(request.Email);
+        var user = await userRepository.FindByExpressionAsync(existingUserSpecification);
 
-        var accessTokenExpire = DateTime.UtcNow.AddMinutes(
-            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInMinutes"]));
-        var refreshTokenExpire = DateTime.UtcNow.AddMinutes(
-            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInDays"]));
-
-        return new LoginDto
+        if (user == null || !IsPasswordValid(user.Password, request.Password))
         {
-            AccessToken =
-                tokenUtility.GenerateToken(user, accessTokenExpire),
-            RefreshToken = tokenUtility.GenerateToken(user, refreshTokenExpire),
-        };
+            throw new Exception("Invalid email or password");
+        }
+
+        return tokenUtility.GenerateJwtToken(user);
+    }
+
+    private bool IsPasswordValid(string dbPassword, string requestPassword)
+    {
+        var passwordHasher = new PasswordHasher<object>();
+        var verificationResult = passwordHasher.VerifyHashedPassword(new object(), dbPassword, requestPassword);
+
+        return verificationResult == PasswordVerificationResult.Success;
     }
 }
 
-public record LoginQuery(string Email, string Password) : IRequest<LoginDto>;
+public record LoginQuery(string Email, string Password) : IRequest<JwtToken>;

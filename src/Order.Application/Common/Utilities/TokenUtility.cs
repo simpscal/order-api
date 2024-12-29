@@ -5,13 +5,28 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
+using Order.Application.Common.Models;
 using Order.Domain.Users;
 
 namespace Order.Application.Common.Utilities;
 
 public class TokenUtility(IConfiguration configuration)
 {
-    public string GenerateToken(User user, DateTime? expires = null)
+    public JwtToken GenerateJwtToken(User user)
+    {
+        var accessTokenExpire = DateTime.UtcNow.AddMinutes(
+            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInMinutes"]));
+        var refreshTokenExpire = DateTime.UtcNow.AddMinutes(
+            Convert.ToInt16(configuration["JwtSettings:TokenExpirationInDays"]));
+
+        return new JwtToken
+        {
+            AccessToken = GenerateToken(user, accessTokenExpire),
+            RefreshToken = GenerateToken(user, refreshTokenExpire),
+        };
+    }
+
+    private string GenerateToken(User user, DateTime expires)
     {
         var secretKey = configuration["JwtSettings:Secret"];
 
@@ -27,7 +42,7 @@ public class TokenUtility(IConfiguration configuration)
                     new Claim("userId", user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                 ]),
-            Expires = expires ?? DateTime.UtcNow.AddHours(1),
+            Expires = expires,
             SigningCredentials =
                 new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),

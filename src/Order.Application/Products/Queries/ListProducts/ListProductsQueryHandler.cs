@@ -13,7 +13,7 @@ public class ListProductsQueryHandler(IMapper mapper, IProductRepository product
         ListProductsQuery request,
         CancellationToken cancellationToken)
     {
-        var products = await productRepository.GetAllProductsAsync();
+        var products = await productRepository.GetAllAsync();
 
         return products.Select(product => mapper.Map<ListProductsDto>(product));
     }

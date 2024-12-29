@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-using Order.Domain.Interfaces;
+using Order.Domain.Common.Interfaces;
 
 namespace Order.Domain.Common.Specifications;
 

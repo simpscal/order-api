@@ -1,9 +1,8 @@
-using Order.Domain.Interfaces;
+using Order.Domain.Common.Interfaces;
 
 namespace Order.Domain.Users;
 
-public interface IUserRepository : IBaseRepository
+public interface IUserRepository : IRepository<User>
 {
-    public Task<User> GetUserAsync(string email, string password);
-    public Task<User> CreateUserAsync(string email, string password);
+    public Task<User> AddAsync(User user);
 }

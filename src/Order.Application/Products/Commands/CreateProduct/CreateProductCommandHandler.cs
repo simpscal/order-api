@@ -9,7 +9,7 @@ public class CreateProductCommandHandler(IProductRepository productRepository)
 {
     public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var productId = await productRepository.CreateProductAsync(
+        var productId = await productRepository.AddAsync(
             new Product { Name = request.Name, Price = request.Price });
 
         await productRepository.SaveChangesAsync();

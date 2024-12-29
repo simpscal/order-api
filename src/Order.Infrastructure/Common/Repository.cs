@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Order.Application.Common.Constants;
 using Order.Domain.Common.Interfaces;
+using Order.Shared.Models;
 
 namespace Order.Infrastructure.Common;
 
@@ -19,9 +20,22 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
 
     public async Task<IEnumerable<T>> FilterByExpressionAsync(ISpecification<T> specification)
     {
-        var queryable = _dbSet.AsQueryable();
+        var queryable = _dbSet.AsQueryable().Where(specification.ToExpression());
 
-        return await queryable.Where(specification.ToExpression()).ToListAsync();
+        return await queryable.ToListAsync();
+    }
+
+    public async Task<PagedResult<T>> FilterPagedByExpressionAsync(
+        ISpecification<T> specification,
+        Pagination pagination)
+    {
+        var queryable = _dbSet.AsQueryable().Where(specification.ToExpression());
+        var totalCount = await queryable.CountAsync();
+
+        queryable = queryable.Skip(pagination.Skip).Take(pagination.Take);
+        var items = await queryable.ToListAsync();
+
+        return new PagedResult<T>() { TotalCount = totalCount, Items = items, };
     }
 
     public async Task<int> SaveChangesAsync()

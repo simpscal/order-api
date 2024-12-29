@@ -6,8 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Ardalis.SmartEnum"/>
-        <PackageReference Include="MediatR"/>
-        <PackageReference Include="throw"/>
+        <PackageReference Include="Ardalis.SmartEnum" />
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="throw" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Order.shared\order.shared.csproj" />
     </ItemGroup>
 </Project>

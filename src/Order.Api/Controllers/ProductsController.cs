@@ -1,10 +1,10 @@
 using MediatR;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
 using Order.Application.Products.Queries.ListProducts;
+using Order.Shared.Models;
 
 namespace Order.Api.Controllers;
 
@@ -12,15 +12,15 @@ namespace Order.Api.Controllers;
 public class ProductsController(IMediator mediator) : ApiController
 {
     [HttpPost]
-    public async Task<string> CreateProduct(CreateProductCommand request)
+    public async Task<string> AddProduct(CreateProductCommand request)
     {
         return await mediator.Send(request);
     }
 
-    [HttpGet]
-    public async Task<IEnumerable<ListProductsDto>> GetProducts()
+    [HttpPost("filter")]
+    public async Task<PagedResult<ListProductsDto>> GetProducts([FromBody] ListProductsQuery request)
     {
-        var products = await mediator.Send(new ListProductsQuery());
+        var products = await mediator.Send(request);
 
         return products;
     }

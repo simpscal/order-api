@@ -3,20 +3,28 @@ using AutoMapper;
 using MediatR;
 
 using Order.Domain.Products;
+using Order.Domain.Products.Models;
+using Order.Domain.Products.Specifications;
+using Order.Shared.Models;
 
 namespace Order.Application.Products.Queries.ListProducts;
 
 public class ListProductsQueryHandler(IMapper mapper, IProductRepository productRepository)
-    : IRequestHandler<ListProductsQuery, IEnumerable<ListProductsDto>>
+    : IRequestHandler<ListProductsQuery, PagedResult<ListProductsDto>>
 {
-    public async Task<IEnumerable<ListProductsDto>> Handle(
+    public async Task<PagedResult<ListProductsDto>> Handle(
         ListProductsQuery request,
         CancellationToken cancellationToken)
     {
-        var products = await productRepository.GetAllAsync();
+        var filterProductsSpecification = new FilterProductsSpecification(request);
+        var pagedResult = await productRepository.FilterPagedByExpressionAsync(filterProductsSpecification, request);
 
-        return products.Select(product => mapper.Map<ListProductsDto>(product));
+        return new PagedResult<ListProductsDto>()
+        {
+            TotalCount = pagedResult.TotalCount,
+            Items = pagedResult.Items.Select(product => mapper.Map<ListProductsDto>(product)),
+        };
     }
 }
 
-public class ListProductsQuery : IRequest<IEnumerable<ListProductsDto>>;
+public record ListProductsQuery : ProductFilterParams, IRequest<PagedResult<ListProductsDto>>;

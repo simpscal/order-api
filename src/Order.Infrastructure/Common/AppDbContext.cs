@@ -17,31 +17,4 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ProductColor> ProductColors { get; set; }
     public DbSet<ProductSize> ProductSizes { get; set; }
     public DbSet<User> Users { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Product>()
-            .HasMany(e => e.ProductColors)
-            .WithMany(e => e.Products)
-            .UsingEntity<Dictionary<string, object>>(
-                "ProductProductColor",
-                j => j.HasOne<ProductColor>().WithMany().HasForeignKey("ProductColorsId"),
-                j => j.HasOne<Product>().WithMany().HasForeignKey("ProductsId"),
-                j =>
-                {
-                    j.HasKey("ProductsId", "ProductColorsId");
-                });
-
-        modelBuilder.Entity<Product>()
-            .HasMany(e => e.ProductSizes)
-            .WithMany(e => e.Products)
-            .UsingEntity<Dictionary<string, object>>(
-                "ProductProductSize",
-                j => j.HasOne<ProductSize>().WithMany().HasForeignKey("ProductSizesId"),
-                j => j.HasOne<Product>().WithMany().HasForeignKey("ProductsId"),
-                j =>
-                {
-                    j.HasKey("ProductsId", "ProductSizesId");
-                });
-    }
 }

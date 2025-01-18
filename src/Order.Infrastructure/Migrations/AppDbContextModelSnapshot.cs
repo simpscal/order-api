@@ -214,30 +214,30 @@ namespace Order.Infrastructure.Migrations
 
             modelBuilder.Entity("ProductProductColor", b =>
                 {
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ProductColorsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ProductsId", "ProductColorsId");
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("ProductColorsId");
+                    b.HasKey("ProductColorsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("ProductProductColor");
                 });
 
             modelBuilder.Entity("ProductProductSize", b =>
                 {
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ProductSizesId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ProductsId", "ProductSizesId");
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("ProductSizesId");
+                    b.HasKey("ProductSizesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("ProductProductSize");
                 });

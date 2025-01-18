@@ -1,6 +1,6 @@
 using Order.Domain.Common.Interfaces;
 
-namespace Order.Domain.Users;
+namespace Order.Domain.User;
 
 public interface IUserRepository : IRepository<User>
 {

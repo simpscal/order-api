@@ -1,6 +1,6 @@
 using Order.Domain.Common;
 
-namespace Order.Domain.Users;
+namespace Order.Domain.User;
 
 public class User : Entity
 {

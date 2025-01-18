@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Order.Infrastructure.Common;
@@ -11,9 +12,11 @@ using Order.Infrastructure.Common;
 namespace Order.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250108163455_Add Base Entity")]
+    partial class AddBaseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +106,6 @@ namespace Order.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -116,7 +118,6 @@ namespace Order.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -143,7 +144,6 @@ namespace Order.Infrastructure.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -214,30 +214,30 @@ namespace Order.Infrastructure.Migrations
 
             modelBuilder.Entity("ProductProductColor", b =>
                 {
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ProductColorsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ProductsId", "ProductColorsId");
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("ProductColorsId");
+                    b.HasKey("ProductColorsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("ProductProductColor");
                 });
 
             modelBuilder.Entity("ProductProductSize", b =>
                 {
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ProductSizesId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ProductsId", "ProductSizesId");
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("ProductSizesId");
+                    b.HasKey("ProductSizesId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("ProductProductSize");
                 });

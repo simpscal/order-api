@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
 using Order.Domain.Common.Specifications;
-using Order.Domain.Products.Models;
+using Order.Domain.Product.Models;
 
-namespace Order.Domain.Products.Specifications;
+namespace Order.Domain.Product.Specifications;
 
 public class FilterProductsSpecification(ProductFilterParams filterParams) : Specification<Product>
 {

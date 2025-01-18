@@ -2,8 +2,8 @@ using MediatR;
 
 using Order.Application.Common.Models;
 using Order.Application.Common.Utilities;
-using Order.Domain.Users;
-using Order.Domain.Users.Specifications;
+using Order.Domain.User;
+using Order.Domain.User.Specifications;
 
 namespace Order.Application.Auth.Commands.Register;
 
@@ -23,6 +23,11 @@ public class RegisterCommandHandler(
         }
 
         var user = await userRepository.AddAsync(new User { Email = request.Email, Password = request.Password, });
+
+        if (await userRepository.SaveChangesAsync() < 1)
+        {
+            throw new ApplicationException("There was an error creating the user");
+        }
 
         return tokenUtility.GenerateJwtToken(user);
     }

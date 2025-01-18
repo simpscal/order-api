@@ -2,9 +2,9 @@ using AutoMapper;
 
 using MediatR;
 
-using Order.Domain.Products;
-using Order.Domain.Products.Models;
-using Order.Domain.Products.Specifications;
+using Order.Domain.Product;
+using Order.Domain.Product.Models;
+using Order.Domain.Product.Specifications;
 using Order.Shared.Models;
 
 namespace Order.Application.Products.Queries.ListProducts;

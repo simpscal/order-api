@@ -11,11 +11,11 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
 {
     protected readonly DbSet<T> _dbSet = appDbContext.Set<T>();
 
-    public Task<T> FindByExpressionAsync(ISpecification<T> specification)
+    public Task<T?> FindByExpressionAsync(ISpecification<T> specification)
     {
         var queryable = _dbSet.AsQueryable();
 
-        return queryable.Where(specification.ToExpression()).FirstAsync();
+        return queryable.Where(specification.ToExpression()).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<T>> FilterByExpressionAsync(ISpecification<T> specification)

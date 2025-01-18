@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using Order.Domain.Users;
+using Order.Domain.User;
 using Order.Infrastructure.Common;
 
 namespace Order.Infrastructure.Users;
 
-public class UserRepository(AppDbContext appDbContext) : Repository<User>(appDbContext), IUserRepository
+public class UserRepository(AppDbContext appDbContext) :
+    Repository<User>(appDbContext),
+    IUserRepository
 {
     public async Task<User> AddAsync(User user)
     {
@@ -14,12 +16,8 @@ public class UserRepository(AppDbContext appDbContext) : Repository<User>(appDbC
         var hashPassword = passwordHasher.HashPassword(new object(), user.Password);
 
         var newUser = new User { Email = user.Email, Password = hashPassword };
-        _dbSet.Add(newUser);
 
-        if (await SaveChangesAsync() < 1)
-        {
-            throw new ApplicationException("There was an error creating the user");
-        }
+        await _dbSet.AddAsync(newUser);
 
         return user;
     }

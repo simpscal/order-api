@@ -24,6 +24,11 @@ public class RegisterCommandHandler(
 
         var user = await userRepository.AddAsync(new User { Email = request.Email, Password = request.Password, });
 
+        if (await userRepository.SaveChangesAsync() < 1)
+        {
+            throw new ApplicationException("There was an error creating the user");
+        }
+
         return tokenUtility.GenerateJwtToken(user);
     }
 }

@@ -1,8 +1,13 @@
 using System.Text;
 
+using Amazon.S3;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
+using Order.Api.Services;
+using Order.Shared.Interfaces;
 
 namespace Order.Api;
 
@@ -14,6 +19,18 @@ public static class DependencyInjection
         services.AddControllers();
         services.AddEndpointsApiExplorer();
 
+        services.AddSwaggerConfiguration();
+        services.AddJwtAuthentication(configuration);
+
+        services.AddProblemDetails();
+
+        services.AddAWSS3();
+
+        return services;
+    }
+
+    private static IServiceCollection AddSwaggerConfiguration(this IServiceCollection services)
+    {
         services.AddSwaggerGen(options =>
         {
             options.AddSecurityDefinition(
@@ -39,6 +56,13 @@ public static class DependencyInjection
             });
         });
 
+        return services;
+    }
+
+    private static IServiceCollection AddJwtAuthentication(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
         services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,7 +82,22 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddProblemDetails();
+        return services;
+    }
+
+    private static IServiceCollection AddAWSS3(this IServiceCollection services)
+    {
+        services.AddSingleton<IFileStorageService, S3Service>();
+
+        services.AddSingleton<IAmazonS3>(sp =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+
+            return new AmazonS3Client(
+                configuration["AWS:AccessKey"],
+                configuration["AWS:SecretKey"],
+                Amazon.RegionEndpoint.GetBySystemName(configuration["AWS:Region"]));
+        });
 
         return services;
     }

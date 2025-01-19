@@ -4,24 +4,33 @@ using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
 using Order.Application.Products.Queries.ListProducts;
+using Order.Shared.Interfaces;
 using Order.Shared.Models;
 
 namespace Order.Api.Controllers;
 
 [Route("api/products")]
-public class ProductsController(IMediator mediator) : ApiController
+public class ProductsController(IMediator mediator, IFileStorageService fileStorageService) : ApiController
 {
     [HttpPost]
-    public async Task<string> AddProduct(CreateProductCommand request)
+    public Task<string> AddProduct(CreateProductCommand request)
     {
-        return await mediator.Send(request);
+        return mediator.Send(request);
     }
 
     [HttpPost("filter")]
-    public async Task<PagedResult<ListProductsDto>> GetProducts([FromBody] ListProductsQuery request)
+    public Task<PagedResult<ListProductsDto>> GetProducts([FromBody] ListProductsQuery request)
     {
-        var products = await mediator.Send(request);
+        return mediator.Send(request);
+    }
 
-        return products;
+    [HttpPost("presigned-url")]
+    public Task<string> GetPresignedUrl([FromBody] PresignedUrl request)
+    {
+        return fileStorageService.GetPresignedUrlAsync(
+            request.FileName,
+            "products",
+            request.ContentType,
+            TimeSpan.FromMinutes(15));
     }
 }

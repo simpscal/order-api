@@ -1,8 +1,9 @@
 using System.ComponentModel;
 
 using Order.Domain.Common;
+using Order.Domain.Products;
 
-namespace Order.Domain.ProductColor;
+namespace Order.Domain.ProductColors;
 
 public class ProductColor : Entity
 {
@@ -11,5 +12,5 @@ public class ProductColor : Entity
 
     public string Code { get; set; } = string.Empty;
 
-    public ICollection<Product.Product> Products { get; set; } = [];
+    public ICollection<Product> Products { get; set; } = [];
 }

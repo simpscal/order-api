@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 using Order.Application.Common.Models;
-using Order.Domain.User;
+using Order.Domain.Users;
 
 namespace Order.Application.Common.Utilities;
 

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-using Order.Domain.Product;
+using Order.Domain.Products;
 using Order.Infrastructure.Common;
 
 namespace Order.Infrastructure.Products;

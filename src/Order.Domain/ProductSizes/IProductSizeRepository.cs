@@ -1,7 +1,7 @@
 using Order.Domain.Common.Enums;
 using Order.Domain.Common.Interfaces;
 
-namespace Order.Domain.ProductSize;
+namespace Order.Domain.ProductSizes;
 
 public interface IProductSizeRepository : IRepository<ProductSize>
 {

@@ -2,8 +2,8 @@ using MediatR;
 
 using Order.Application.Common.Models;
 using Order.Application.Common.Utilities;
-using Order.Domain.User;
-using Order.Domain.User.Specifications;
+using Order.Domain.Users;
+using Order.Domain.Users.Specifications;
 
 namespace Order.Application.Auth.Commands.Register;
 

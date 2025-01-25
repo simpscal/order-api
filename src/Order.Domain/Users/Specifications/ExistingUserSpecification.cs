@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 using Order.Domain.Common.Specifications;
 
-namespace Order.Domain.User.Specifications;
+namespace Order.Domain.Users.Specifications;
 
 public class ExistingUserSpecification(string email) : Specification<User>
 {

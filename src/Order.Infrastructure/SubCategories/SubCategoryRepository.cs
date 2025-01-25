@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Order.Domain.Common.Enums;
-using Order.Domain.SubCategory;
+using Order.Domain.SubCategories;
 using Order.Infrastructure.Common;
 using Order.Shared.Extensions;
 

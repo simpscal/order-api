@@ -1,6 +1,6 @@
 using Order.Shared.Models;
 
-namespace Order.Domain.Product.Models;
+namespace Order.Domain.Products.Models;
 
 public record ProductFilterParams : FilterParams
 {

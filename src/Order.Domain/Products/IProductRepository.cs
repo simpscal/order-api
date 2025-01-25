@@ -1,6 +1,6 @@
 using Order.Domain.Common.Interfaces;
 
-namespace Order.Domain.Product;
+namespace Order.Domain.Products;
 
 public interface IProductRepository : IRepository<Product>
 {

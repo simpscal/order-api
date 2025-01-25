@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Order.Domain.Common.Enums;
-using Order.Domain.ProductColor;
+using Order.Domain.ProductColors;
 using Order.Infrastructure.Common;
 using Order.Shared.Extensions;
 

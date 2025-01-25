@@ -1,7 +1,7 @@
 using AutoMapper;
 
 using Order.Application.Products.Queries.ListProducts;
-using Order.Domain.Product;
+using Order.Domain.Products;
 
 namespace Order.Application.Products;
 

@@ -1,11 +1,10 @@
 using MediatR;
-
-using Order.Domain.Category;
+using Order.Domain.Categories;
 using Order.Domain.Common.Enums;
-using Order.Domain.Product;
-using Order.Domain.ProductColor;
-using Order.Domain.ProductSize;
-using Order.Domain.SubCategory;
+using Order.Domain.ProductColors;
+using Order.Domain.Products;
+using Order.Domain.ProductSizes;
+using Order.Domain.SubCategories;
 using Order.Shared.Extensions;
 
 namespace Order.Application.Products.Commands.CreateProduct;

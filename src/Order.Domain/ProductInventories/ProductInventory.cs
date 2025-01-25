@@ -7,12 +7,14 @@ namespace Order.Domain.ProductInventories;
 
 public class ProductInventory : Entity
 {
-    public required Guid ProductId { get; set; }
-    public required string ProductColorName { get; set; }
-    public required string ProductSizeName { get; set; }
     public int AvailableStock { get; set; }
 
+    public required Guid ProductId { get; set; }
     public Product? Product { get; set; }
+
+    public required Guid ProductColorId { get; set; }
     public ProductColor? ProductColor { get; set; }
+
+    public required Guid ProductSizeId { get; set; }
     public ProductSize? ProductSize { get; set; }
 }

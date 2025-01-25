@@ -30,8 +30,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 {
                     productInventory.Id,
                     productInventory.ProductId,
-                    productInventory.ProductColorName,
-                    productInventory.ProductSizeName,
+                    productInventory.ProductColorId,
+                    productInventory.ProductSizeId,
                 });
     }
 }

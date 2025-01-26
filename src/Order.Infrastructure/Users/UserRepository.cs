@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-using Order.Domain.User;
+using Order.Domain.Users;
 using Order.Infrastructure.Common;
 
 namespace Order.Infrastructure.Users;

@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 using Order.Domain.Common;
 
-namespace Order.Domain.Category;
+namespace Order.Domain.Categories;
 
 public class Category : Entity
 {

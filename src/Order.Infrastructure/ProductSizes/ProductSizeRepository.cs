@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Order.Domain.Common.Enums;
-using Order.Domain.ProductSize;
+using Order.Domain.ProductSizes;
 using Order.Infrastructure.Common;
 using Order.Shared.Extensions;
 

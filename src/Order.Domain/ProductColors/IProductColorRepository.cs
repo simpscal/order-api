@@ -1,7 +1,7 @@
 using Order.Domain.Common.Enums;
 using Order.Domain.Common.Interfaces;
 
-namespace Order.Domain.ProductColor;
+namespace Order.Domain.ProductColors;
 
 public interface IProductColorRepository : IRepository<ProductColor>
 {

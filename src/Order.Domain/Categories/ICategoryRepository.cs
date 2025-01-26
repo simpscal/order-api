@@ -1,7 +1,7 @@
 using Order.Domain.Common.Enums;
 using Order.Domain.Common.Interfaces;
 
-namespace Order.Domain.Category;
+namespace Order.Domain.Categories;
 
 public interface ICategoryRepository : IRepository<Category>
 {

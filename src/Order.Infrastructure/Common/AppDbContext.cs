@@ -1,20 +1,37 @@
 using Microsoft.EntityFrameworkCore;
-
-using Order.Domain.Category;
-using Order.Domain.Product;
-using Order.Domain.ProductColor;
-using Order.Domain.ProductSize;
-using Order.Domain.SubCategory;
-using Order.Domain.User;
+using Order.Domain.Categories;
+using Order.Domain.ProductColors;
+using Order.Domain.ProductInventories;
+using Order.Domain.Products;
+using Order.Domain.ProductSizes;
+using Order.Domain.SubCategories;
+using Order.Domain.Users;
 
 namespace Order.Infrastructure.Common;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<SubCategory> SubCategories { get; set; }
-    public DbSet<ProductColor> ProductColors { get; set; }
-    public DbSet<ProductSize> ProductSizes { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<Product> Products { get; init; }
+    public DbSet<Category> Categories { get; init; }
+    public DbSet<SubCategory> SubCategories { get; init; }
+    public DbSet<ProductColor> ProductColors { get; init; }
+    public DbSet<ProductSize> ProductSizes { get; init; }
+    public DbSet<ProductInventory> ProductInventories { get; init; }
+    public DbSet<User> Users { get; init; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Product Inventory
+        modelBuilder.Entity<ProductInventory>()
+            .HasKey(productInventory =>
+                new
+                {
+                    productInventory.Id,
+                    productInventory.ProductId,
+                    productInventory.ProductColorId,
+                    productInventory.ProductSizeId,
+                });
+    }
 }

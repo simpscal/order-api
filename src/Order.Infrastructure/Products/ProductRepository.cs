@@ -11,14 +11,14 @@ public class ProductRepository(AppDbContext appDbContext) :
 {
     private readonly AppDbContext _appDbContext = appDbContext;
 
-    public async Task<string> AddAsync(Product product)
+    public async Task<Guid> AddAsync(Product product)
     {
         _appDbContext.AttachRange(product.ProductColors);
         _appDbContext.AttachRange(product.ProductSizes);
 
         var result = await _dbSet.AddAsync(product);
 
-        return result.Entity.Id.ToString();
+        return result.Entity.Id;
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync()

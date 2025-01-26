@@ -10,7 +10,7 @@ public enum SizeType
     S,
     [StringValue("m")]
     M,
-    [StringValue("xl")]
+    [StringValue("l")]
     L,
     [StringValue("xl")]
     Xl,

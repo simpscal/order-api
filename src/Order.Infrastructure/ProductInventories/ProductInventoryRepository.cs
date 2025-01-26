@@ -13,4 +13,9 @@ public class ProductInventoryRepository(AppDbContext appDbContext) :
 
         return result.Entity.Id.ToString();
     }
+
+    public async Task AddRangeAsync(IEnumerable<ProductInventory> productInventories)
+    {
+        await _dbSet.AddRangeAsync(productInventories);
+    }
 }

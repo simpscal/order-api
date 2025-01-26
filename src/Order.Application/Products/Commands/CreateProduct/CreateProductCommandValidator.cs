@@ -32,5 +32,15 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
             .WithMessage("Sizes are empty")
             .Must(sizes => sizes.All(size => size.ExistInEnum<SizeType>()))
             .WithMessage("Sizes do not exist");
+
+        RuleFor(x => x)
+            .Must(x => x.Colors.All(color => x.Inventories.ContainsKey(color)))
+            .WithMessage("Color does not exist in the inventories");
+
+        RuleFor(x => x)
+            .Must(x => x.Sizes.All(size =>
+                x.Inventories.Keys
+                    .All(inventoryColor => x.Inventories[inventoryColor].ContainsKey(size))))
+            .WithMessage("Size does not exist in the inventories");
     }
 }

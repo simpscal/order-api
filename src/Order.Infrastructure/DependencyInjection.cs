@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Order.Domain.Categories;
+using Order.Domain.Common.Interfaces;
 using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
 using Order.Domain.Products;
@@ -35,8 +36,9 @@ public static class DependencyInjection
         services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
         services.AddScoped<IProductColorRepository, ProductColorRepository>();
         services.AddScoped<IProductInventoryRepository, ProductInventoryRepository>();
-
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

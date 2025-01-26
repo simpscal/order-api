@@ -2,6 +2,7 @@ using MediatR;
 
 using Order.Domain.Categories;
 using Order.Domain.Common.Enums;
+using Order.Domain.Common.Interfaces;
 using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
 using Order.Domain.Products;
@@ -12,12 +13,11 @@ using Order.Shared.Extensions;
 namespace Order.Application.Products.Commands.CreateProduct;
 
 public class CreateProductCommandHandler(
-    IProductRepository productRepository,
     ICategoryRepository categoryRepository,
     ISubCategoryRepository subCategoryRepository,
     IProductColorRepository productColorRepository,
     IProductSizeRepository productSizeRepository,
-    IProductInventoryRepository productInventoryRepository)
+    IUnitOfWork unitOfWork)
     : IRequestHandler<CreateProductCommand, string>
 {
     public async Task<string> Handle(
@@ -26,7 +26,7 @@ public class CreateProductCommandHandler(
     {
         var (productColors, productSizes, categoryId, subCategoryId) = await GetDataSource(request);
 
-        var productId = await productRepository.AddAsync(
+        var productId = await unitOfWork.ProductRepository.AddAsync(
             new Product
             {
                 Name = request.Name,
@@ -37,16 +37,15 @@ public class CreateProductCommandHandler(
                 SubCategoryId = subCategoryId,
             });
 
-        var productInventories = GetProductInventories(
+        var productInventories = GenerateProductInventories(
             productColors,
             productSizes,
             request,
             productId);
 
-        await productInventoryRepository.AddRangeAsync(productInventories);
+        await unitOfWork.ProductInventoryRepository.AddRangeAsync(productInventories);
 
-        await productRepository.SaveChangesAsync();
-        await productInventoryRepository.SaveChangesAsync();
+        await unitOfWork.CommitAsync();
 
         return productId.ToString();
     }
@@ -79,7 +78,7 @@ public class CreateProductCommandHandler(
             subCategoryIdTask.Result);
     }
 
-    private IEnumerable<ProductInventory> GetProductInventories(
+    private IEnumerable<ProductInventory> GenerateProductInventories(
         IEnumerable<ProductColor> productColors,
         IEnumerable<ProductSize> productSizes,
         CreateProductCommand request,
@@ -88,9 +87,7 @@ public class CreateProductCommandHandler(
         return productColors.SelectMany(productColor => productSizes.Select(
             productSize =>
             {
-                var inventory = request.Inventories
-                    .First(stock => stock.ContainsKey(productColor.Name));
-                var stock = inventory[productColor.Name][productSize.Name];
+                var stock = request.Inventories[productColor.Name][productSize.Name];
 
                 return new ProductInventory
                 {
@@ -110,5 +107,5 @@ public record CreateProductCommand(
     string[] Sizes,
     string SubCategory,
     string Category,
-    Dictionary<string, Dictionary<string, int>>[] Inventories)
+    Dictionary<string, Dictionary<string, int>> Inventories)
     : IRequest<string>;

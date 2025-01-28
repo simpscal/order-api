@@ -1,4 +1,7 @@
+using System.Text.Json;
+
 using Microsoft.EntityFrameworkCore;
+
 using Order.Domain.Categories;
 using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
@@ -22,6 +25,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // Product
+        modelBuilder.Entity<Product>()
+            .Property(product => product.ImagesByColor)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions { WriteIndented = true }),
+                v => JsonSerializer.Deserialize<Dictionary<string, string[]>>(v, new JsonSerializerOptions())!)
+            .HasColumnType("jsonb");
 
         // Product Inventory
         modelBuilder.Entity<ProductInventory>()

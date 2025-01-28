@@ -35,6 +35,7 @@ public class CreateProductCommandHandler(
                 ProductSizes = productSizes,
                 CategoryId = categoryId,
                 SubCategoryId = subCategoryId,
+                ImagesByColor = request.ImagesByColor,
             });
 
         var productInventories = GenerateProductInventories(
@@ -107,5 +108,6 @@ public record CreateProductCommand(
     string[] Sizes,
     string SubCategory,
     string Category,
+    Dictionary<string, string[]> ImagesByColor,
     Dictionary<string, Dictionary<string, int>> Inventories)
     : IRequest<string>;

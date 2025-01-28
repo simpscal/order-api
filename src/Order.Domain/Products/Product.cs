@@ -10,7 +10,7 @@ public class Product : Entity
 {
     public required string Name { get; set; }
     public required decimal Price { get; set; }
-    public string[] Images { get; set; } = [];
+    public required Dictionary<string, string[]> ImagesByColor { get; set; }
 
     public required ICollection<ProductColor> ProductColors { get; set; }
     public required ICollection<ProductSize> ProductSizes { get; set; }

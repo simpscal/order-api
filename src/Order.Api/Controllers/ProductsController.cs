@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
-using Order.Application.Products.Queries.ListProducts;
+using Order.Application.Products.Queries.Products;
 using Order.Shared.Interfaces;
 using Order.Shared.Models;
 
@@ -19,7 +19,7 @@ public class ProductsController(IMediator mediator, IFileStorageService fileStor
     }
 
     [HttpPost("filter")]
-    public Task<PagedResult<ListProductsDto>> GetProducts([FromBody] ListProductsQuery request)
+    public Task<PagedResult<ProductDto>> GetProducts([FromBody] ProductsQuery request)
     {
         return mediator.Send(request);
     }

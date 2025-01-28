@@ -15,12 +15,22 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
     {
         var queryable = _dbSet.AsQueryable();
 
+        foreach (var includeExpression in specification.Includes)
+        {
+            queryable = queryable.Include(includeExpression);
+        }
+
         return queryable.Where(specification.ToExpression()).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<T>> FilterByExpressionAsync(ISpecification<T> specification)
     {
         var queryable = _dbSet.AsQueryable().Where(specification.ToExpression());
+
+        foreach (var includeExpression in specification.Includes)
+        {
+            queryable = queryable.Include(includeExpression);
+        }
 
         return await queryable.ToListAsync();
     }
@@ -33,6 +43,12 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
         var totalCount = await queryable.CountAsync();
 
         queryable = queryable.Skip(pagination.Skip).Take(pagination.Take);
+
+        foreach (var includeExpression in specification.Includes)
+        {
+            queryable = queryable.Include(includeExpression);
+        }
+
         var items = await queryable.ToListAsync();
 
         return new PagedResult<T>() { TotalCount = totalCount, Items = items, };

@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Caching.Memory;
+
 using Order.Domain.Categories;
 using Order.Domain.Common.Interfaces;
 using Order.Domain.ProductColors;
@@ -28,13 +30,13 @@ public class UnitOfWork : IUnitOfWork
 
     private readonly AppDbContext _appDbContext;
 
-    public UnitOfWork(AppDbContext appDbContext)
+    public UnitOfWork(IMemoryCache memoryCache, AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
 
         ProductRepository = new ProductRepository(_appDbContext);
-        ProductColorRepository = new ProductColorRepository(_appDbContext);
-        ProductSizeRepository = new ProductSizeRepository(_appDbContext);
+        ProductColorRepository = new ProductColorRepository(memoryCache, _appDbContext);
+        ProductSizeRepository = new ProductSizeRepository(memoryCache, _appDbContext);
         CategoryRepository = new CategoryRepository(_appDbContext);
         SubCategoryRepository = new SubCategoryRepository(_appDbContext);
         ProductInventoryRepository = new ProductInventoryRepository(_appDbContext);

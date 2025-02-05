@@ -38,11 +38,16 @@ public class CreateProductCommandHandler(
                 ImagesByColor = request.ImagesByColor,
             });
 
-        var productInventories = GenerateProductInventories(
-            productColors,
-            productSizes,
-            request,
-            productId);
+        var productInventories = productColors
+            .SelectMany(productColor => productSizes
+                .Select(productSize =>
+                    new ProductInventory
+                    {
+                        ProductId = productId,
+                        ProductColorId = productColor.Id,
+                        ProductSizeId = productSize.Id,
+                        AvailableStock = request.Inventories[productColor.Name][productSize.Name],
+                    }));
 
         await unitOfWork.ProductInventoryRepository.AddRangeAsync(productInventories);
 
@@ -77,27 +82,6 @@ public class CreateProductCommandHandler(
             productSizesTask.Result.ToList(),
             categoryIdTask.Result,
             subCategoryIdTask.Result);
-    }
-
-    private IEnumerable<ProductInventory> GenerateProductInventories(
-        IEnumerable<ProductColor> productColors,
-        IEnumerable<ProductSize> productSizes,
-        CreateProductCommand request,
-        Guid productId)
-    {
-        return productColors.SelectMany(productColor => productSizes.Select(
-            productSize =>
-            {
-                var stock = request.Inventories[productColor.Name][productSize.Name];
-
-                return new ProductInventory
-                {
-                    ProductId = productId,
-                    ProductColorId = productColor.Id,
-                    ProductSizeId = productSize.Id,
-                    AvailableStock = stock,
-                };
-            }));
     }
 }
 

@@ -25,6 +25,11 @@ public static class DependencyInjection
         services.AddProblemDetails();
 
         services.AddAWSS3();
+        services.AddMemoryCache(options =>
+        {
+            options.CompactionPercentage = 0.2;
+            options.ExpirationScanFrequency = TimeSpan.FromMinutes(5);
+        });
 
         return services;
     }

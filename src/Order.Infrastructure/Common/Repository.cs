@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-using Order.Application.Common.Constants;
+using Order.Constants;
 using Order.Domain.Common.Interfaces;
 using Order.Shared.Models;
 
@@ -60,7 +60,7 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
 
         if (result < 1)
         {
-            throw new Exception(AppErrorConstants.DumbError);
+            throw new Exception(AppErrors.DumbError);
         }
 
         return result;

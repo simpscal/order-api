@@ -4,7 +4,7 @@ using FluentValidation;
 
 using Microsoft.AspNetCore.Http;
 
-using Order.Application.Common.Models;
+using Order.Models;
 
 namespace Order.Application.Common.Middlewares;
 

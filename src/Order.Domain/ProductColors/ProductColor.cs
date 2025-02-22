@@ -8,9 +8,9 @@ namespace Order.Domain.ProductColors;
 public class ProductColor : Entity
 {
     [Description("ColorType")]
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; }
 
-    public string Code { get; set; } = string.Empty;
+    public required string Code { get; set; }
 
     public ICollection<Product> Products { get; set; } = [];
 }

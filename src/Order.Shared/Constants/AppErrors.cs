@@ -1,6 +1,6 @@
-namespace Order.Application.Common.Constants;
+namespace Order.Constants;
 
-public class AppErrorConstants
+public static class AppErrors
 {
     public const string DumbError = "There's some error while processing your request.";
 }

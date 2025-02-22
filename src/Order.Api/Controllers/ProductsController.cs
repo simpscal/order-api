@@ -1,5 +1,6 @@
 using MediatR;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
@@ -12,6 +13,7 @@ namespace Order.Api.Controllers;
 [Route("api/products")]
 public class ProductsController(IMediator mediator, IFileStorageService fileStorageService) : ApiController
 {
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public Task<string> AddProduct(CreateProductCommand request)
     {

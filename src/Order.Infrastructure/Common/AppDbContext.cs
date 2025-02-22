@@ -7,6 +7,7 @@ using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
 using Order.Domain.Products;
 using Order.Domain.ProductSizes;
+using Order.Domain.Roles;
 using Order.Domain.SubCategories;
 using Order.Domain.Users;
 
@@ -21,6 +22,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ProductSize> ProductSizes { get; init; }
     public DbSet<ProductInventory> ProductInventories { get; init; }
     public DbSet<User> Users { get; init; }
+    public DbSet<Role> Roles { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,4 @@
-namespace Order.Application.Common.Models;
+namespace Order.Models;
 
 public class JwtToken
 {

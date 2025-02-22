@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Auth.Commands.Register;
 using Order.Application.Auth.Queries.Login;
-using Order.Application.Common.Models;
+using Order.Models;
 
 namespace Order.Api.Controllers;
 

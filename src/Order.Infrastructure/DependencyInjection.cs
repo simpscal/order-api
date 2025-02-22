@@ -8,6 +8,7 @@ using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
 using Order.Domain.Products;
 using Order.Domain.ProductSizes;
+using Order.Domain.Roles;
 using Order.Domain.SubCategories;
 using Order.Domain.Users;
 using Order.Infrastructure.Categories;
@@ -16,6 +17,7 @@ using Order.Infrastructure.ProductColors;
 using Order.Infrastructure.ProductInventories;
 using Order.Infrastructure.Products;
 using Order.Infrastructure.ProductSizes;
+using Order.Infrastructure.Roles;
 using Order.Infrastructure.SubCategories;
 using Order.Infrastructure.Users;
 
@@ -37,6 +39,7 @@ public static class DependencyInjection
         services.AddScoped<IProductColorRepository, ProductColorRepository>();
         services.AddScoped<IProductInventoryRepository, ProductInventoryRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
 

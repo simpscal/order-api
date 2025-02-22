@@ -5,10 +5,9 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-using Order.Domain.Common.Enums;
+using Order.Domain.Common.Constants;
 using Order.Domain.Users;
 using Order.Models;
-using Order.Shared.Extensions;
 
 namespace Order.Application.Common.Utilities;
 
@@ -43,7 +42,7 @@ public class TokenUtility(IConfiguration configuration)
                 new ClaimsIdentity([
                     new Claim("userId", user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role?.Name ?? RoleType.User.GetStringValue())
+                    new Claim(ClaimTypes.Role, user.Role?.Name ?? Roles.User)
                 ]),
             Expires = expires,
             SigningCredentials =

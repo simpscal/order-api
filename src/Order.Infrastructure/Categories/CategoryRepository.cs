@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Order.Domain.Categories;
-using Order.Domain.Common.Enums;
 using Order.Infrastructure.Common;
-using Order.Shared.Extensions;
 
 namespace Order.Infrastructure.Categories;
 
@@ -11,10 +9,10 @@ public class CategoryRepository(AppDbContext appDbContext) :
     Repository<Category>(appDbContext),
     ICategoryRepository
 {
-    public async Task<Guid> GetIdAsync(CategoryType categoryType)
+    public async Task<Guid> GetIdAsync(string name)
     {
         var category = await _dbSet
-            .Where(category => category.Name == categoryType.GetStringValue())
+            .Where(category => category.Name == name)
             .FirstAsync();
 
         return category.Id;

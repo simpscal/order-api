@@ -1,6 +1,6 @@
 using FluentValidation;
 
-using Order.Domain.Common.Enums;
+using Order.Domain.Common.Constants;
 using Order.Shared.Extensions;
 
 namespace Order.Application.Products.Commands.CreateProduct;
@@ -18,21 +18,21 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
             .WithMessage("Price must be greater than zero");
 
         RuleFor(product => product.Category)
-            .Must(category => category.ExistInEnum<CategoryType>())
+            .Must(category => category.ExistsInConstant<Categories>())
             .WithMessage("Category does not exist");
 
         RuleFor(product => product.SubCategory)
-            .Must(subCategory => subCategory.ExistInEnum<SubCategoryType>())
+            .Must(subCategory => subCategory.ExistsInConstant<SubCategories>())
             .WithMessage("Sub Category does not exist");
 
         RuleFor(product => product.Colors).Must(colors => colors.Length > 0)
             .WithMessage("Colors are empty")
-            .Must(colors => colors.All(color => color.ExistInEnum<ColorType>()))
+            .Must(colors => colors.All(color => color.ExistsInConstant<Colors>()))
             .WithMessage("Colors do not exist");
 
         RuleFor(product => product.Sizes).Must(sizes => sizes.Length > 0)
             .WithMessage("Sizes are empty")
-            .Must(sizes => sizes.All(size => size.ExistInEnum<SizeType>()))
+            .Must(sizes => sizes.All(size => size.ExistsInConstant<Sizes>()))
             .WithMessage("Sizes do not exist");
 
         RuleFor(product => product)

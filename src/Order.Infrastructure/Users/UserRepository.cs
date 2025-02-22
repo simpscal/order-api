@@ -14,7 +14,12 @@ public class UserRepository(AppDbContext appDbContext) :
         var passwordHasher = new PasswordHasher<object>();
         var hashPassword = passwordHasher.HashPassword(new object(), user.Password);
 
-        var newUser = new User { Email = user.Email, Password = hashPassword, RoleId = user.RoleId };
+        var newUser = new User
+        {
+            Email = user.Email,
+            Password = hashPassword,
+            RoleId = user.RoleId,
+        };
 
         await _dbSet.AddAsync(newUser);
 

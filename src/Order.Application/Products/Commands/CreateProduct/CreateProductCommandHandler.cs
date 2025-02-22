@@ -1,14 +1,12 @@
 using MediatR;
 
 using Order.Domain.Categories;
-using Order.Domain.Common.Enums;
 using Order.Domain.Common.Interfaces;
 using Order.Domain.ProductColors;
 using Order.Domain.ProductInventories;
 using Order.Domain.Products;
 using Order.Domain.ProductSizes;
 using Order.Domain.SubCategories;
-using Order.Shared.Extensions;
 
 namespace Order.Application.Products.Commands.CreateProduct;
 
@@ -64,15 +62,11 @@ public class CreateProductCommandHandler(
             Guid SubCategoryId)> GetDataSource(
             CreateProductCommand request)
     {
-        var productColorsTask = productColorRepository.GetListAsync(
-            request.Colors.Select(color => color.ToEnum<ColorType>()));
-        var productSizesTask = productSizeRepository.GetListAsync(
-            request.Sizes.Select(size => size.ToEnum<SizeType>()));
+        var productColorsTask = productColorRepository.GetListAsync(request.Colors);
+        var productSizesTask = productSizeRepository.GetListAsync(request.Sizes);
 
-        var categoryIdTask = categoryRepository.GetIdAsync(
-            request.Category.ToEnum<CategoryType>());
-        var subCategoryIdTask = subCategoryRepository.GetIdAsync(
-            request.SubCategory.ToEnum<SubCategoryType>());
+        var categoryIdTask = categoryRepository.GetIdAsync(request.Category);
+        var subCategoryIdTask = subCategoryRepository.GetIdAsync(request.SubCategory);
 
         await Task.WhenAll(productColorsTask, productSizesTask, categoryIdTask, subCategoryIdTask);
 

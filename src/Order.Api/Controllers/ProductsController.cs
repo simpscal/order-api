@@ -5,15 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 using Order.Application.Products.Commands.CreateProduct;
 using Order.Application.Products.Queries.Products;
+using Order.Domain.Common.Constants;
 using Order.Shared.Interfaces;
 using Order.Shared.Models;
 
 namespace Order.Api.Controllers;
 
 [Route("api/products")]
-public class ProductsController(IMediator mediator, IFileStorageService fileStorageService) : ApiController
+public class ProductsController(IMediator mediator, IFileStorageService fileStorageService)
+    : ApiController
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     public Task<string> AddProduct(CreateProductCommand request)
     {

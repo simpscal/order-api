@@ -5,6 +5,8 @@ namespace Order.Domain.Common.Interfaces;
 public interface ISpecification<T>
 {
     Expression<Func<T, bool>> ToExpression();
-    List<Expression<Func<T, object>>> Includes { get; }
+    string ToRawSql();
     bool IsSatisfiedBy(T entity);
+
+    List<Expression<Func<T, object>>> Includes { get; }
 }

@@ -22,7 +22,7 @@ public class ProductsQueryHandler(IMapper mapper, IProductRepository productRepo
         return new PagedResult<ProductDto>()
         {
             TotalCount = pagedResult.TotalCount,
-            Items = pagedResult.Items.Select(product => mapper.Map<ProductDto>(product)),
+            Items = pagedResult.Items.Select(mapper.Map<ProductDto>),
         };
     }
 }

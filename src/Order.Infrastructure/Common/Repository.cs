@@ -35,11 +35,42 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
         return await queryable.ToListAsync();
     }
 
+    public async Task<IEnumerable<T>> FilterByRawAsync(ISpecification<T> specification)
+    {
+        var queryable = _dbSet.FromSqlRaw(specification.ToRawSql());
+
+        foreach (var includeExpression in specification.Includes)
+        {
+            queryable = queryable.Include(includeExpression);
+        }
+
+        return await queryable.ToListAsync();
+    }
+
     public async Task<PagedResult<T>> FilterPagedByExpressionAsync(
         ISpecification<T> specification,
         Pagination pagination)
     {
         var queryable = _dbSet.AsQueryable().Where(specification.ToExpression());
+        var totalCount = await queryable.CountAsync();
+
+        queryable = queryable.Skip(pagination.Skip).Take(pagination.Take);
+
+        foreach (var includeExpression in specification.Includes)
+        {
+            queryable = queryable.Include(includeExpression);
+        }
+
+        var items = await queryable.ToListAsync();
+
+        return new PagedResult<T>() { TotalCount = totalCount, Items = items, };
+    }
+
+    public async Task<PagedResult<T>> FilterPagedByRawAsync(
+        ISpecification<T> specification,
+        Pagination pagination)
+    {
+        var queryable = _dbSet.FromSqlRaw(specification.ToRawSql());
         var totalCount = await queryable.CountAsync();
 
         queryable = queryable.Skip(pagination.Skip).Take(pagination.Take);

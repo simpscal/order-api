@@ -7,7 +7,8 @@ namespace Order.Domain.Common.Specifications;
 public abstract class Specification<T> : ISpecification<T>
 {
     public abstract Expression<Func<T, bool>> ToExpression();
-    public List<Expression<Func<T, object>>> Includes { get; } = new();
+
+    public List<Expression<Func<T, object>>> Includes { get; } = [];
 
     public bool IsSatisfiedBy(T entity)
     {
@@ -28,6 +29,11 @@ public abstract class Specification<T> : ISpecification<T>
     public Specification<T> Not()
     {
         return new NotSpecification<T>(this);
+    }
+
+    public string ToRawSql()
+    {
+        return string.Empty;
     }
 
     protected void AddInclude(Expression<Func<T, object>> includeExpression)

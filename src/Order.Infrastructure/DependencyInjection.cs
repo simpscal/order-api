@@ -1,3 +1,5 @@
+using Amazon.S3;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ using Order.Domain.SubCategories;
 using Order.Domain.Users;
 using Order.Infrastructure.Categories;
 using Order.Infrastructure.Common;
+using Order.Infrastructure.Common.Services;
 using Order.Infrastructure.ProductColors;
 using Order.Infrastructure.ProductInventories;
 using Order.Infrastructure.Products;
@@ -20,6 +23,7 @@ using Order.Infrastructure.ProductSizes;
 using Order.Infrastructure.Roles;
 using Order.Infrastructure.SubCategories;
 using Order.Infrastructure.Users;
+using Order.Shared.Interfaces;
 
 namespace Order.Infrastructure;
 
@@ -42,6 +46,25 @@ public static class DependencyInjection
         services.AddScoped<IRoleRepository, RoleRepository>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+        services.AddAWSS3();
+
+        return services;
+    }
+
+    private static IServiceCollection AddAWSS3(this IServiceCollection services)
+    {
+        services.AddSingleton<IFileStorageService, S3Service>();
+
+        services.AddSingleton<IAmazonS3>(sp =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+
+            return new AmazonS3Client(
+                configuration["AWS:AccessKey"],
+                configuration["AWS:SecretKey"],
+                Amazon.RegionEndpoint.GetBySystemName(configuration["AWS:Region"]));
+        });
 
         return services;
     }

@@ -1,11 +1,13 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 
+using Microsoft.Extensions.Configuration;
+
 using Order.Shared.Constants;
 using Order.Shared.Interfaces;
 using Order.Shared.Utilities;
 
-namespace Order.Api.Services;
+namespace Order.Infrastructure.Common.Services;
 
 public class S3Service(IAmazonS3 s3Client, IConfiguration configuration) : IFileStorageService
 {

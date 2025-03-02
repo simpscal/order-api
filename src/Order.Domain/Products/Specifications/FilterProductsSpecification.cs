@@ -21,6 +21,7 @@ public class FilterProductsSpecification : Specification<Product>
     public override Expression<Func<Product, bool>> ToExpression()
     {
         return product =>
+            product.IsDeleted == false &&
             (_filterParams.Price == null ||
              product.Price == _filterParams.Price) &&
             (_filterParams.Colors == null ||

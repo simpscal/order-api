@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
+using Order.Domain.Common;
 using Order.Shared.Constants;
 
 namespace Order.Infrastructure.Common;
 
 public class CachedRepository<T>(IMemoryCache memoryCache, AppDbContext appDbContext)
     : Repository<T>(appDbContext)
-    where T : class
+    where T : Entity
 {
     protected async Task<IEnumerable<T>> GetCachedList(string cacheKey)
     {

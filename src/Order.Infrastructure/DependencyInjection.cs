@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Order.Application.Common.Interfaces;
 using Order.Domain.Categories;
 using Order.Domain.Common.Interfaces;
 using Order.Domain.ProductColors;
@@ -23,7 +24,6 @@ using Order.Infrastructure.ProductSizes;
 using Order.Infrastructure.Roles;
 using Order.Infrastructure.SubCategories;
 using Order.Infrastructure.Users;
-using Order.Shared.Interfaces;
 
 namespace Order.Infrastructure;
 
@@ -46,8 +46,15 @@ public static class DependencyInjection
         services.AddScoped<IRoleRepository, RoleRepository>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
-
+        services.AddRecordCleanupServices();
         services.AddAWSS3();
+
+        return services;
+    }
+
+    private static IServiceCollection AddRecordCleanupServices(this IServiceCollection services)
+    {
+        services.AddHostedService<RecordCleanupHostedService>();
 
         return services;
     }

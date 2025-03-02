@@ -3,8 +3,8 @@ using Amazon.S3.Model;
 
 using Microsoft.Extensions.Configuration;
 
+using Order.Application.Common.Interfaces;
 using Order.Shared.Constants;
-using Order.Shared.Interfaces;
 using Order.Shared.Utilities;
 
 namespace Order.Infrastructure.Common.Services;

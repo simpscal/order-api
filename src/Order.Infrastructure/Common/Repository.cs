@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 
-using Order.Constants;
+using Order.Domain.Common;
 using Order.Domain.Common.Interfaces;
+using Order.Shared.Constants;
 using Order.Shared.Models;
 
 namespace Order.Infrastructure.Common;
 
 public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
-    where T : class
+    where T : Entity
 {
     protected readonly DbSet<T> _dbSet = appDbContext.Set<T>();
 
@@ -83,6 +84,34 @@ public class Repository<T>(AppDbContext appDbContext) : IRepository<T>
         var items = await queryable.ToListAsync();
 
         return new PagedResult<T>() { TotalCount = totalCount, Items = items, };
+    }
+
+    public async Task DeleteAsync(Guid id, bool softDelete = false)
+    {
+        var entity = await _dbSet.FindAsync(id);
+
+        if (entity == null)
+        {
+            throw new Exception(AppErrors.NotFound);
+        }
+
+        if (softDelete)
+        {
+            entity.IsDeleted = true;
+            entity.DeletedAt = DateTime.UtcNow;
+        }
+        else
+        {
+            _dbSet.Remove(entity);
+        }
+    }
+
+    public void DeleteAllSoftDeleted(TimeSpan olderThan)
+    {
+        var deletedRecords =
+            _dbSet.Where(entity => entity.IsDeleted && DateTime.UtcNow - entity.DeletedAt >= olderThan);
+
+        _dbSet.RemoveRange(deletedRecords);
     }
 
     public async Task<int> SaveChangesAsync()

@@ -1,4 +1,4 @@
-namespace Order.Shared.Interfaces;
+namespace Order.Application.Common.Interfaces;
 
 public interface IFileStorageService
 {
